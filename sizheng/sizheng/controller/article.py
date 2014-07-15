@@ -30,6 +30,6 @@ def addArticle():
         else:
             'invalid article'
 
-    return render_template('publish.html')
+    return redirect('/user/'+session['username'])
 
 

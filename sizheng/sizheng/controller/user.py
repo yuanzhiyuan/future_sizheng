@@ -14,10 +14,16 @@ def login():
             session['password'] = request.form['password']
 
             if db_user.User().is_admin(request.form['username'],request.form['password']):
-                return 'hello admin!'
+                return redirect('/admin')
             else:
-                return render_template('publish.html')
+                return redirect('/user/'+request.form['username'])
         else:
             return 'check your username and password!'
     if request.method == 'GET':
         return render_template('login.html')
+
+
+@app.route('/user/<username>')
+def user(username):
+    return render_template('publish.html',username=username)
+

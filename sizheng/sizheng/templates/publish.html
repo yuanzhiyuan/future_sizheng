@@ -5,8 +5,8 @@
     <title>publish</title>
 </head>
 <body>
-    hello!{{session['username']}}
-    <form>
+    hello!{{username}}
+    <form action="{{url_for('addArticle')}}" method="post">
         文章标题:<input type="text" name="title">
         作者:   <input type="text" name="author">
         分类:   <input type="text" name="category">

@@ -8,5 +8,6 @@ app.secret_key = 'fuck'
 import sizheng.controller.index
 import sizheng.controller.article
 import sizheng.controller.user
+import sizheng.controller.admin
 
 

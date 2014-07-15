@@ -57,5 +57,12 @@ class User(Base):
                 return False
         return False
 
+
+    def is_exist(self,username):
+        user = session.query(User).filter(User.username == username).first()
+        if user:
+            return True
+        else:
+            return False
 # user = User()
 # user.addUser('yuan','950708')
