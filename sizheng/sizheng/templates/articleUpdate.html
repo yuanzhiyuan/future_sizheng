@@ -7,6 +7,36 @@
 <body>
     <form action="/article/update/{{article.id}}" method="post">
         文章标题:<input type="text" name="title" value="{{article.title}}">
+        分类:<select name="category">
+                    {% if article.categoryid == 0 %}
+                    <option value="0" selected="selected">zero</option>
+                    {% else %}
+                    <option value="0">zero</option>
+                    {% endif %}
+                   {% if article.categoryid == 1 %}
+                    <option value="1" selected="selected">one</option>
+                    {% else %}
+                    <option value="1">one</option>
+                    {% endif %}
+                    {% if article.categoryid == 2 %}
+                    <option value="2" selected="selected">two</option>
+                    {% else %}
+                    <option value="2">zero</option>
+                    {% endif %}
+                    {% if article.categoryid == 3 %}
+                    <option value="3" selected="selected">three</option>
+                    {% else %}
+                    <option value="3">three</option>
+                    {% endif %}
+                    {% if article.categoryid == 4 %}
+                    <option value="4" selected="selected">four</option>
+                    {% else %}
+                    <option value="4">four</option>
+                    {% endif %}
+
+
+        </select>
+
 
         分类:   <input type="text" name="category" value="{{article.categoryid}}">
         内容：<textarea rows="10" cols="30" name="article">{{article.content}}</textarea>

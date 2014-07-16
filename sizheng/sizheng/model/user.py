@@ -16,7 +16,9 @@ class User(Base):
         else:
             return False
 
-
+    def getAllUsers(self):
+        users = session.query(User)
+        return users
 
 
     def addUser(self,username,password):
@@ -36,6 +38,15 @@ class User(Base):
         user = session.query(User).filter(User.id == id).first()
         if user:
             session.delete(user)
+            session.commit()
+            return True
+        else:
+            return False
+
+    def updateUser(self,id,username,password,state):
+        user = session.query(User).filter(User.id == id)
+        if user:
+            user.update({"username":username,"password":password,"state":state})
             session.commit()
             return True
         else:

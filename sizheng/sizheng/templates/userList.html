@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>list user</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>用户id</th>
+                <th>用户名</th>
+                <th>密码</th>
+                <th>状态</th>
+                <th>删除用户</th>
+                <th>提交</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <form action="/admin/user/update" method="post">
+                    <td><input type="text" name="id" value="{{user.id}}"></td>
+                    <td><input type="text" name="username" value="{{user.username}}"></td>
+                    <td><input type="text" name="password" value="{{user.password}}"></td>
+                    <td><select name="state">
+                            {% if user.state == 0 %}
+                            <option value="0" selected="selected">管理员</option>
+                            {% else %}
+                            <option value="0">管理员</option>
+                            {% endif %}
+                            {% if user.state == 1 %}
+                            <option value="1" selected="selected">一般用户</option>
+                            {% else %}
+                            <option value="1">一般用户</option>
+                            {% endif %}
+                        </select>
+                    </td>
+                    <td>{% if user.username != 'admin' %}<a href="{{url_for('deleteUser',userid=user.id)}}">删除</a>{% endif %}</td>
+                    <td><input type="submit"></td>
+
+                </form>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

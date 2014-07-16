@@ -9,7 +9,13 @@
     <form action="{{url_for('addArticle')}}" method="post">
         文章标题:<input type="text" name="title">
 
-        分类:   <input type="text" name="category">
+        分类:   <select name="category">
+                    <option value="0">zero</option>
+                    <option value="1">one</option>
+                    <option value="2">two</option>
+                    <option value="3">three</option>
+                    <option value="4">four</option>
+                </select>
         内容：<textarea rows="10" cols="30" name="article"></textarea>
         <input type="submit">
     </form>
