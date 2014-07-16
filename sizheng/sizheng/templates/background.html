@@ -5,6 +5,37 @@
     <title>background</title>
 </head>
 <body>
+    <ul>
+        <li>个人</li>
+        <ul>
+            <li><a href="/logout">退出系统</a></li>
+            <li><a href="/user/changePassword">修改密码</a></li>
+            <li>编辑个人资料</li>
+
+        </ul>
+        <li>文章</li>
+        <ul>
+            <li><a href="/article/add">写文章</a></li>
+            <li><a href="/article/list">文章列表</a></li>
+        </ul>
+        {% if session['state'] == 0 %}
+        <li>站点信息</li>
+        <ul>
+            <li>访问统计</li>
+            <li>服务器状态</li>
+        </ul>
+        <li>用户管理</li>
+        <ul>
+            <li>添加用户</li>
+            <li>用户列表</li>
+        </ul>
+        <li>站点文章管理</li>
+        <ul>
+            <li>待审核</li>
+            <li>所有文章</li>
+        </ul>
+        {% endif %}
+    </ul>
     待审核文章列表:
     <ul>
 

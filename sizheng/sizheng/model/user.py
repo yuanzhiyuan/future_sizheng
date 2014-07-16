@@ -7,6 +7,18 @@ class User(Base):
     password = Column(String(20))
     state = Column(Integer,default=1) #1:putong 0:admin
 
+
+
+    def getUser(self,username):
+        user = session.query(User).filter(User.username == username).first()
+        if user:
+            return user
+        else:
+            return False
+
+
+
+
     def addUser(self,username,password):
         current_user = session.query(User).order_by(desc(User.id)).first()
         if current_user:
@@ -31,7 +43,7 @@ class User(Base):
 
     def changePassword(self,username,oldPassword,newPassword):
         if self.confirm(username,oldPassword):
-            user = session.query(User).filter(User.username == username).first()
+            user = session.query(User).filter(User.username == username)
             user.update({"password":newPassword})
             session.commit()
             return True

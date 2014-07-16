@@ -12,8 +12,10 @@ def login():
         if db_user.User().confirm(request.form['username'],request.form['password']):
             session['username'] = request.form['username']
             session['password'] = request.form['password']
+            user = db_user.User().getUser(request.form['username'])
+            session['state'] = user.state
 
-            if db_user.User().is_admin(request.form['username'],request.form['password']):
+            if session['state'] == 0:
                 return redirect('/admin')
             else:
                 return redirect('/user/'+request.form['username'])
@@ -25,5 +27,32 @@ def login():
 
 @app.route('/user/<username>')
 def user(username):
-    return render_template('publish.html',username=username)
+    return render_template('background.html',username=username)
+
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username',None)
+    session.pop('password',None)
+    session.pop('state',None)
+    return redirect('/')
+
+
+@app.route('/user/changePassword',methods=['GET','POST'])
+def changePassword():
+    if request.method == 'GET':
+        return render_template('changePassword.html')
+    elif request.method == 'POST':
+        if db_user.User().confirm(session['username'],request.form['oldpassword']):
+            if request.form['newpassword'] == request.form['repassword']:
+                db_user.User().changePassword(session['username'],request.form['oldpassword'],request.form['repassword'])
+                if session['state'] == 0:
+                    return redirect('/admin')
+                else:
+                    return redirect('/user/'+session['username'])
+            else:
+                return 'old and new password does not match'
+        else:
+            return 'wrong password'
 

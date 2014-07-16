@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>文章id</th>
+                <th>标题</th>
+                <th>发布时间</th>
+                <th>最后更新时间</th>
+                <th>审核状态</th>
+                <th>删除</th>
+                <th>修改</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+            <tr>
+                <td>{{article.id}}</td>
+                <td>{{article.title}}</td>
+                <td>{{article.publishTime}}</td>
+                <td>{{article.updateTime}}</td>
+                <td>{{article.state}}</td>
+                <td><a href="{{url_for('deleteArticle',articleid=article.id)}}">删除</a></td>
+                <td><a href="{{url_for('updateArticle',articleid=article.id)}}">修改</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
