@@ -84,6 +84,21 @@ class Article(Base):
         articles = handler.limit(pageSize).offset((page-1)*pageSize).all()
         return pages,articles
 
+    def getUnverifiedArticles(self):
+        articles = session.query(Article).filter(Article.state == 0)
+        if articles:
+            return articles
+        else:
+            return False
+
+    def verify(self,articleid):
+        article = session.query(Article).filter(Article.id == articleid)
+        if article:
+            article.update({"state":1})
+            session.commit()
+            return True
+        else:
+            return False
 # article = Article()
 # # article.deleteArticle(0)
 # article.addArticle(2,'afa','bbb','ccc')

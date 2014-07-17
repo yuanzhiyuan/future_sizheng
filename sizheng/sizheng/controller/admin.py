@@ -35,15 +35,22 @@ def listUser():
 
 @app.route('/admin/user/update',methods=['POST'])
 def updateUser():
-    id = request.form['id']
+    #userid is str
+    userid = request.form['id']
     username = request.form['username']
     password = request.form['password']
     state = request.form['state']
-    if id and username and password and state:
-        if db_user.User().is_exist(username):
-            return 'exist username'
+    if userid and username and password and state:
+        user = db_user.User().getUser(username)
+        if user:
+            if user.id == int(userid):
+                db_user.User().updateUser(userid,username,password,state)
+                return redirect('/admin/user/list')
+            else:
+                return 'exist username'
+
         else:
-            db_user.User().updateUser(id,username,password,state)
+            db_user.User().updateUser(userid,username,password,state)
             return redirect('/admin/user/list')
     else:
         return 'check your input'
@@ -55,3 +62,31 @@ def deleteUser(userid):
     else:
         return 'there arose a mistake when deleting'
 
+
+@app.route('/admin/article/verify',methods=['GET','POST'])
+def verify():
+    if request.method == 'GET':
+        articles = db_article.Article().getUnverifiedArticles()
+        return render_template('admin_articleVerify.html',articles=articles)
+    elif request.method == 'POST':
+        if request.form['type'] == 'pass':
+            db_article.Article().verify(int(request.form['articleid']))
+            return 'pass success'
+        elif request.form['type'] == 'unpass':
+            db_article.Article().deleteArticle(int(request.form['articleid']))
+            return 'unpass success'
+        else:
+            return 'error'
+
+@app.route('/admin/article/list')
+def admin_listAllArticles():
+    articles = db_article.Article().getAllArticles()
+    return render_template('admin_articleList.html',articles=articles)
+
+@app.route('/admin/article/delete',methods=['POST'])
+def admin_deleteArticle():
+    articleid = request.form['articleid']
+    if db_article.Article().deleteArticle(articleid):
+        return 'delete success'
+    else:
+        return 'delete failed'

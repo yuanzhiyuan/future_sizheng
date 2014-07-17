@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>list all article</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td>文章id</td>
+                <td>标题</td>
+                <td>作者</td>
+                <td>分类</td>
+                <td>更新时间</td>
+                <td>发布时间</td>
+                <td>浏览次数</td>
+                <td>状态</td>
+                <td>删除</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+            <tr>
+                <td>{{article.id}}</td>
+                <td>{{article.title}}</td>
+                <td>{{article.author}}</td>
+                <td>{{article.categoryid}}</td>
+                <td>{{article.updateTime}}</td>
+                <td>{{article.publishTime}}</td>
+                <td>{{article.views}}</td>
+                {% if article.state == 0 %}
+                <td>未审核</td>
+                {% else %}
+                <td>已审核</td>
+                {% endif %}
+                <td>
+                    <button data-articleid="{{article.id}}" onclick="deleteArticle(this)">删除</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/simditor-all.min.js"></script>
+<script src="/static/js/global.js"></script>
+</html>
