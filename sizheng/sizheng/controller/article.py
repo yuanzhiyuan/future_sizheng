@@ -27,12 +27,8 @@ def addArticle():
         category = request.form['category']
         if title and author and article and category:
             db_article.Article().addArticle(category,title,article,author)
-            if session['state'] == 1:
-                return redirect('/user/'+session['username'])
-            elif session['state'] == 0:
-                return redirect('/admin')
-            else:
-                return redirect('/login/')
+            return 'success'
+
         else:
             return 'invalid article'
 

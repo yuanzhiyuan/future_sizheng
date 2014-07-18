@@ -5,9 +5,9 @@
     <title></title>
 </head>
 <body>
-    <form action="/article/update/{{article.id}}" method="post">
-        文章标题:<input type="text" name="title" value="{{article.title}}">
-        分类:<select name="category">
+    <!--<form action="/article/update/{{article.id}}" method="post">-->
+        文章标题:<input type="text" name="title" value="{{article.title}}" id="title">
+        分类:<select name="category" id="category">
                     {% if article.categoryid == 0 %}
                     <option value="0" selected="selected">zero</option>
                     {% else %}
@@ -38,10 +38,13 @@
         </select>
 
 
-        分类:   <input type="text" name="category" value="{{article.categoryid}}">
-        内容：<textarea rows="10" cols="30" name="article">{{article.content}}</textarea>
-        <input type="submit">
 
-    </form>
+        内容：<textarea rows="10" cols="30" name="article" id="article">{{article.content}}</textarea>
+        <!--<input type="submit">-->
+        <button type="submit" data-id="{{article.id}}" onclick="updateArticle(this)">submit</button>
+    <!--</form>-->
 </body>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/simditor-all.min.js"></script>
+<script src="/static/js/global.js"></script>
 </html>

@@ -19,11 +19,11 @@
         <tbody>
             {% for user in users %}
             <tr>
-                <form action="/admin/user/update" method="post">
-                    <td><input type="text" name="id" value="{{user.id}}"></td>
-                    <td><input type="text" name="username" value="{{user.username}}"></td>
-                    <td><input type="text" name="password" value="{{user.password}}"></td>
-                    <td><select name="state">
+                <!--<form action="/admin/user/update" method="post">-->
+                    <td><input type="text" name="id" value="{{user.id}}" id="{{user.id}}userid"></td>
+                    <td><input type="text" name="username" value="{{user.username}}" id="{{user.id}}username"></td>
+                    <td><input type="text" name="password" value="{{user.password}}" id="{{user.id}}password"></td>
+                    <td><select name="state" id="{{user.id}}state">
                             {% if user.state == 0 %}
                             <option value="0" selected="selected">管理员</option>
                             {% else %}
@@ -37,9 +37,9 @@
                         </select>
                     </td>
                     <td>{% if user.username != 'admin' %}<a href="{{url_for('deleteUser',userid=user.id)}}">删除</a>{% endif %}</td>
-                    <td><input type="submit"></td>
+                    <td><button type="submit" data-id="{{user.id}}" onclick="updateUser(this)" >submit</button></td>
 
-                </form>
+                <!--</form>-->
 
             </tr>
             {% endfor %}
@@ -47,4 +47,7 @@
     </table>
 
 </body>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/simditor-all.min.js"></script>
+<script src="/static/js/global.js"></script>
 </html>

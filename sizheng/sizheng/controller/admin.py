@@ -21,8 +21,8 @@ def addUser():
                 return 'exist username'
             else:
                 db_user.User().addUser(username,password)
+                return 'add success'
 
-            return redirect('/admin')
         return 'confirm your password'
     else:
         return render_template('userAdd.html')
@@ -45,13 +45,13 @@ def updateUser():
         if user:
             if user.id == int(userid):
                 db_user.User().updateUser(userid,username,password,state)
-                return redirect('/admin/user/list')
+                return 'success'
             else:
                 return 'exist username'
 
         else:
             db_user.User().updateUser(userid,username,password,state)
-            return redirect('/admin/user/list')
+            return 'success'
     else:
         return 'check your input'
 
