@@ -16,18 +16,20 @@ def login():
             session['state'] = user.state
 
             if session['state'] == 0:
-                return redirect('/admin')
+                return 'admin'
+                # return redirect('/admin')
             else:
-                return redirect('/user/'+request.form['username'])
+                return 'user'
+                # return redirect('/user/'+request.form['username'])
         else:
             return 'check your username and password!'
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('user/login.html')
 
 
 @app.route('/user/<username>')
 def user(username):
-    return render_template('background.html',username=username)
+    return render_template('user/background.html',username=username)
 
 
 
@@ -42,19 +44,23 @@ def logout():
 @app.route('/user/changePassword',methods=['GET','POST'])
 def changePassword():
     if request.method == 'GET':
-        return render_template('changePassword.html')
+        return render_template('user/changePassword.html')
     elif request.method == 'POST':
         if db_user.User().confirm(session['username'],request.form['oldpassword']):
             if request.form['newpassword'] == request.form['repassword']:
                 db_user.User().changePassword(session['username'],request.form['oldpassword'],request.form['repassword'])
-                if session['state'] == 0:
-                    return redirect('/admin')
-                else:
-                    return redirect('/user/'+session['username'])
+                return 'success'
             else:
                 return 'old and new password does not match'
         else:
             return 'wrong password'
 
 
-
+@app.route('/user/frame/<position>')
+def showFrame(position):
+    if position == 'left':
+        return render_template('user/frame_left.html')
+    if position == 'right':
+        return render_template('user/frame_right.html')
+    else:
+        return False

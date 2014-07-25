@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<link href="/static/css/sonsstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<table id="users">
+	<tr>
+    	<td class="short_elements">
+        文章ID
+        </td>
+        <td class="short_elements">
+        标题
+        </td>
+
+        <td class="long_elements">
+        发布时间
+        </td>
+        <td class="long_elements">
+        最后更新时间
+        </td>
+        <td class="short_elements">
+        状态
+        </td>
+        <td class="short_elements">
+        修改
+        </td>
+        <td class="short_elements">
+        删除
+        </td>
+    </tr>
+    {% for article in articles %}
+    <tr>
+    	<td>
+        <div class="examine_elements short_elements">
+        	{{article.id}}
+        </div>
+        </td>
+        <td>
+        <div class="short_elements">
+        {{article.title}}
+        </div>
+        </td>
+        <td>
+        </td>
+        <td>
+         <div class="short_elements">
+        {{article.publishTime}}
+        </div>
+        </td>
+       	<td>
+        <div class="long_elements">
+        {{article.updateTime}}
+        </div>
+        </td>
+        <td>
+        <div class="long_elements">
+        {% if article.state==0 %}
+            未审核
+         {% else %}
+            已审核
+        {% endif %}
+        </div>
+        </td>
+
+        <td>
+            <div class="short_elements">
+                 <a href="{{url_for('updateArticle',articleid=article.id)}}">修改</a>
+            </div>
+        </td>
+        <td>
+
+        	<div class="button examine_button">
+                <a href="{{url_for('deleteArticle',articleid=article.id)}}">删除</a>
+            </div>
+
+        </td>
+    </tr>
+    {% endfor %}
+
+
+</table>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{% extends "index/base.html" %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {% block nav %}
+            <div class="position">
+			当前位置：<a href="#">首页</a>
+		    </div>
+            {% endblock %}
+
+
+			<!-- 每页20条 -->
+            {% block content %}
+        <div class="fl ov-h">
+			<ul class="arclist">
+                {% for article in articles %}
+
+				<li><a href="/article/{{article.id}}">{{article.title}}</a><span class="fr">{{article.publishTime}}</span></li>
+			    {% endfor %}
+            </ul>
+
+			<hr>
+
+
+			<div class="list-page">
+				<ul>
+                    {% for num in range(totalPages) %}
+                    {% if num+1==currentPage %}
+					<li><a class="active" href="#">{{currentPage}}</a></li>
+                    {% else %}
+					<li><a href="/page/{{num+1}}">{{num+1}}</a></li>
+					{% endif %}
+                    {% endfor %}
+				</ul>
+			</div>
+          </div>
+            {% endblock %}

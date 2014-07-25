@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>登陆界面</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+ 	<div class="log_box">
+    	<div class="box_top">
+        	后台登录系统
+        </div>
+    	<div>
+        <input class="search_query" type="text" placeholder="用户名" maxlength="80" id="username">
+        <input class="search_query" type="password" placeholder="密码" maxlength="80" id="password">
+        </div>
+        <div class="search_query log_in">
+        	<a href="#" onclick="login()">
+        		登&nbsp;&nbsp;&nbsp;&nbsp;录
+            </a>
+        </div>
+    </div>
+
+    <!--<form action="{{url_for('login')}}" method="post">-->
+        <!--username:<input type="test" name="username" id="username">-->
+        <!--password:<input type="password" name="password" id="password">-->
+        <!--&lt;!&ndash;<button type="submit" onclick="login()"></button>&ndash;&gt;-->
+        <!--<input type="submit">-->
+    <!--</form>-->
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/simditor-all.min.js"></script>
+<script src="/static/js/myGlobal.js"></script>
+</html>

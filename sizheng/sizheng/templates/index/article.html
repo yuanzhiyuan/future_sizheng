@@ -1,0 +1,33 @@
+{% extends "index/base.html" %}
+
+
+
+
+
+
+
+
+
+
+
+
+        {% block nav %}
+		<div class="position">
+			当前位置：<a href="#">首页</a>  > {{article.title}}
+		</div>
+        {% endblock %}
+
+        {% block content %}
+		<div class="fl ov-h article">
+			<h1 class="title">{{article.title}}</h1>
+			<div class="detail ta-c mt-10 c-gray fs-12">
+				<span>发布者：{{article.author}}</span>
+				&emsp;&emsp;
+				<span>发布时间：{{article.publishTime}}</span>
+			</div>
+			<hr>
+			<div class="content">
+				<p style="padding: 0px; margin-top: 0px; margin-bottom: 0px; word-wrap: break-word; line-height: 30px;">{{article.content}}</p>
+			</div>
+		</div>
+        {% endblock %}

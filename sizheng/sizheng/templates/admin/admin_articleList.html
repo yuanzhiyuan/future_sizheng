@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<link href="/static/css/sonsstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<table id="users">
+	<tr>
+    	<td class="short_elements">
+        文章ID
+        </td>
+        <td class="short_elements">
+        标题
+        </td>
+        <td class="short_elements">
+        作者
+        </td>
+        <!--<td class="short_elements">-->
+        <!--分类-->
+        <!--</td>-->
+        <td class="long_elements">
+        发布时间
+        </td>
+        <td class="long_elements">
+        最后跟新时间
+        </td>
+        <td class="short_elements">
+        浏览次数
+        </td>
+        <td class="short_elements">
+        状态
+        </td>
+        <td class="short_elements">
+        删除
+        </td>
+    </tr>
+    {% for article in articles %}
+     <tr>
+    	<td>
+        <div class="examine_elements short_elements">
+        	{{article.id}}
+        </div>
+        </td>
+        <td>
+        <div class="short_elements">
+        {{article.title}}
+        </div>
+        </td>
+        <td>
+        <div class="short_elements">
+        {{article.author}}
+        </div>
+        </td>
+        <!--<td>-->
+         <!--<div class="short_elements">-->
+        <!--{{article.categoryid}}-->
+        <!--</div>-->
+        <!--</td>-->
+       	<td>
+        <div class="long_elements">
+        {{article.publishTime}}
+        </div>
+        </td>
+        <td>
+        <div class="long_elements">
+        {{article.updateTime}}
+        </div>
+        </td>
+        <td>
+        <div class="short_elements">
+        {{article.views}}
+        </div>
+        </td>
+        <td>
+        <div class="short_elements">
+        {% if article.state == 0 %}
+                未审核
+                {% else %}
+                已审核
+        {% endif %}
+        </div>
+        </td>
+        <td>
+
+            <center><button data-articleid="{{article.id}}" onclick="deleteArticle(this)">删除</button></center>
+
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/simditor-all.min.js"></script>
+<script src="/static/js/myGlobal.js"></script>
+</html>

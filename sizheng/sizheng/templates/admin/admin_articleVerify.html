@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<link href="/static/css/sonsstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<table border="0"  id="users">
+	<tr>
+    	<td class="short_elements">
+        文章ID
+        </td>
+        <td class="short_elements">
+        标题
+        </td>
+        <td class="short_elements">
+        作者
+        </td>
+
+        <td class="long_elements">
+        发布时间
+        </td>
+        <td class="long_elements">
+        最后跟新时间
+        </td>
+        <td class="long_elements">
+        审核
+        </td>
+    </tr>
+    {% for article in articles %}
+    <tr>
+    	<td>
+        <div class="examine_elements short_elements">
+        	{{article.id}}
+        </div>
+        </td>
+        <td>
+        <div class="short_elements">
+        {{article.title}}
+        </div>
+        </td>
+        <td>
+        <div class="short_elements">
+        {{article.author}}
+        </div>
+        </td>
+
+       	<td>
+        <div class="long_elements">
+        {{article.publishTime}}
+        </div>
+        </td>
+        <td>
+        <div class="long_elements">
+        {{article.updateTime}}
+        </div>
+        </td>
+        <td>
+        <div class="long_elements">
+        	<a href="#" data-articleid="{{ article.id }}" onclick="passArticle(this)">
+        	<div class="button examine_button">
+            	通过
+            </div>
+            </a>
+            <a href="#" data-articleid="{{ article.id }}" onclick="unpassArticle(this)">
+            <div class="button examine_button">
+            	不通过
+            </div>
+            </a>
+        </div>
+        </td>
+  	</tr>
+      {% endfor %}
+        
+        
+</table>
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/simditor-all.min.js"></script>
+<script src="/static/js/myGlobal.js"></script>
+</html>
+

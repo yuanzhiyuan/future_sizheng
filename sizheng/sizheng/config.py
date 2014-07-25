@@ -10,11 +10,11 @@ DB_DB = 'sizheng'
 DB_USERNAME = 'root'
 DB_PASSWORD = '002899'
 
-
+CATEGORY_COUNT = 1
 ########
 #MailServer
 ########
-Admin=['kongkongyzt@gmail.com']
+Admin=['707699544@qq.com']
 MailHost="smtp.qq.com"
 MailPort = 25
 MailUser="707699544"

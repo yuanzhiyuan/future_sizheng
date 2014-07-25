@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <!--<form action="/article/update/{{article.id}}" method="post">-->
+        文章标题:<input type="text" name="title" value="{{article.title}}" id="title">
+
+
+
+
+
+
+
+        内容：<textarea rows="10" cols="30" name="article" id="article">{{article.content}}</textarea>
+        <!--<input type="submit">-->
+        <button type="submit" data-id="{{article.id}}" onclick="updateArticle(this)">submit</button>
+    <!--</form>-->
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/simditor-all.min.js"></script>
+<script src="/static/js/myGlobal.js"></script>
+</html>

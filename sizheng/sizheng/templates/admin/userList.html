@@ -10,6 +10,8 @@
             <tr>
                 <th>用户id</th>
                 <th>用户名</th>
+                <th>邮箱</th>
+                <th>电话</th>
                 <th>密码</th>
                 <th>状态</th>
                 <th>删除用户</th>
@@ -22,6 +24,8 @@
                 <!--<form action="/admin/user/update" method="post">-->
                     <td><input type="text" name="id" value="{{user.id}}" id="{{user.id}}userid"></td>
                     <td><input type="text" name="username" value="{{user.username}}" id="{{user.id}}username"></td>
+                    <td><input type="email" name="email" value="{{user.email}}" id="{{user.id}}email"></td>
+                    <td><input type="text" name="phone" value="{{user.phone}}" id="{{user.id}}phone"></td>
                     <td><input type="text" name="password" value="{{user.password}}" id="{{user.id}}password"></td>
                     <td><select name="state" id="{{user.id}}state">
                             {% if user.state == 0 %}
@@ -49,5 +53,5 @@
 </body>
 <script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/simditor-all.min.js"></script>
-<script src="/static/js/global.js"></script>
+<script src="/static/js/myGlobal.js"></script>
 </html>

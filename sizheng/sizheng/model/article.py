@@ -17,8 +17,15 @@ class Article(Base):
     state = Column(Integer,default=0) #0:haimeishenhe 1:sizhengzizhan 2:shouye
     views = Column(Integer,default=0)
 
+    def getArticlesBetweenTimestamps(self,formerTime,laterTime):
+        articles = session.query(Article).filter(Article.publishTime.between(formerTime,laterTime))
+        return articles
+
+
+
+
     def getAllArticles(self):
-        articles = session.query(Article)
+        articles = session.query(Article).order_by(desc(Article.id))
         return articles
     def getArticleByCategoryid(self,categoryid):
         articles = session.query(Article).filter(Article.categoryid == categoryid)
@@ -26,7 +33,12 @@ class Article(Base):
             return articles
         else:
             return False
-
+    def getHotArticles(self):
+        now = int(time.time())
+        oneMonthAgo = now-30*24*3600
+        articlesInOneMonth = self.getArticlesBetweenTimestamps(oneMonthAgo,now)
+        articles = articlesInOneMonth.order_by(desc(Article.views),desc(Article.id))
+        return articles
     def listNewestOfArticles(self,articles):
         handler = articles.order_by(desc(Article.id))
         handledArticles = handler.limit(8).all()
@@ -48,12 +60,8 @@ class Article(Base):
 
     def addArticle(self,categoryid,title,content,author):
 
-        current_article = session.query(Article).order_by(desc(Article.id)).first()
-        if current_article:
-            theid = current_article.id + 1
-        else:
-            theid = 0
-        article = Article(id = theid,categoryid = categoryid,title = title,content = content,author = author,updateTime = int(time.time()),publishTime = int(time.time()))
+
+        article = Article(categoryid = categoryid,title = title,content = content,author = author,updateTime = int(time.time()),publishTime = int(time.time()))
         # print session.query(Article).order_by(desc(Article.id)).first()
         session.add(article)
         session.commit()
@@ -99,6 +107,18 @@ class Article(Base):
             return True
         else:
             return False
+
+
+    def cutArticlesAsPages(self,articles,pageSize=20,pageNum=1):
+        if articles:
+            if articles.count != 0:
+                pages = articles.count()/pageSize
+                result = articles.limit(pageSize).offset((pageNum-1)*pageSize).all()
+                return pages,result
+            return False
+        return False
+
+
 # article = Article()
 # # article.deleteArticle(0)
 # article.addArticle(2,'afa','bbb','ccc')

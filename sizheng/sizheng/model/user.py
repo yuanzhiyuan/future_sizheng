@@ -6,7 +6,8 @@ class User(Base):
     username = Column(String(20))
     password = Column(String(20))
     state = Column(Integer,default=1) #1:putong 0:admin
-
+    email = Column(String(30))
+    phone = Column(Integer,default=0)
 
 
     def getUser(self,username):
@@ -21,13 +22,9 @@ class User(Base):
         return users
 
 
-    def addUser(self,username,password):
-        current_user = session.query(User).order_by(desc(User.id)).first()
-        if current_user:
-            theid = current_user.id+1
-        else:
-            theid = 0
-        user = User(id = theid,username = username,password = password)
+    def addUser(self,username,password,email,phone=0):
+
+        user = User(username = username,password = password,email=email,phone=phone)
         if user:
             session.add(user)
             session.commit()
@@ -43,10 +40,10 @@ class User(Base):
         else:
             return False
 
-    def updateUser(self,id,username,password,state):
+    def updateUser(self,id,username,password,state,email,phone=0):
         user = session.query(User).filter(User.id == id)
         if user:
-            user.update({"username":username,"password":password,"state":state})
+            user.update({"username":username,"password":password,"state":state,"email":email,"phone":phone})
             session.commit()
             return True
         else:
