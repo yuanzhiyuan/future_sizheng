@@ -18,7 +18,8 @@ class Article(Base):
     views = Column(Integer,default=0)
 
     def getArticlesBetweenTimestamps(self,formerTime,laterTime):
-        articles = session.query(Article).filter(Article.publishTime.between(formerTime,laterTime))
+        verified = self.getVerifiedArticles()
+        articles = verified.filter(Article.publishTime.between(formerTime,laterTime))
         return articles
 
 
@@ -61,7 +62,7 @@ class Article(Base):
     def addArticle(self,categoryid,title,content,author):
 
 
-        article = Article(categoryid = categoryid,title = title,content = content,author = author,updateTime = int(time.time()),publishTime = int(time.time()))
+        article = Article(categoryid = categoryid,title = title,content = content,author = author,updateTime = int(time.time()))
         # print session.query(Article).order_by(desc(Article.id)).first()
         session.add(article)
         session.commit()
@@ -91,7 +92,12 @@ class Article(Base):
         pages = handler.count()/pageSize
         articles = handler.limit(pageSize).offset((page-1)*pageSize).all()
         return pages,articles
-
+    def getVerifiedArticles(self):
+        articles = session.query(Article).filter(Article.state == 1)
+        if articles:
+            return articles
+        else:
+            return False
     def getUnverifiedArticles(self):
         articles = session.query(Article).filter(Article.state == 0)
         if articles:
@@ -108,7 +114,15 @@ class Article(Base):
         else:
             return False
 
-
+    def isVerified(self,articleid):
+        article = session.query(Article).filter(Article.id == articleid).first()
+        if article:
+            if article.state:
+                return True
+            else:
+                return False
+        else:
+            return False
     def cutArticlesAsPages(self,articles,pageSize=20,pageNum=1):
         if articles:
             if articles.count != 0:

@@ -24,10 +24,12 @@ def addUser():
                 return 'exist username'
             else:
                 db_user.User().addUser(username,password,email,phone)
-                send_mail([email],'管理员为您注册了用户','用户名是:{musername},密码是:{mpassword},请在{mlogin}上登录'.format(musername=username,mpassword=password,mlogin='sizheng.future.org.cn/login/'))
-                return 'add success'
+                try:
+                    send_mail([email],'管理员为您注册了用户','用户名是:{musername},密码是:{mpassword},请在{mlogin}上登录'.format(musername=username,mpassword=password,mlogin='sizheng.future.org.cn/login/'))
+                finally:
+                    return 'add success'
 
-        return 'confirm your password'
+        return '用户名/密码不对'
     else:
         return render_template('admin/userAdd.html')
 
@@ -52,22 +54,22 @@ def updateUser():
             if user.id == int(userid):
                 db_user.User().updateUser(userid,username,password,state,email,phone)
 
-                return 'success'
+                return '更新成功'
             else:
-                return 'exist username'
+                return '用户名已存在'
 
         else:
             db_user.User().updateUser(userid,username,password,state,email,phone)
-            return 'success'
+            return '更新成功'
     else:
-        return 'check your input'
+        return '检查你的输入'
 
 @app.route('/admin/user/delete/<userid>')
 def deleteUser(userid):
     if db_user.User().deleteUser(userid):
         return redirect('/admin/user/list')
     else:
-        return 'there arose a mistake when deleting'
+        return '删除时出现错误'
 
 
 @app.route('/admin/article/verify',methods=['GET','POST'])
@@ -82,14 +84,18 @@ def verify():
         article = db_article.Article().getArticle(int(articleid))
         if request.form['type'] == 'pass':
             db_article.Article().verify(int(articleid))
-            send_mail([email],'您的文章已通过管理员审核','文章标题:{title},文章id:{id}'.format(title=article.title,id=articleid))
-            return 'pass success'
+            try:
+                send_mail([email],'您的文章已通过管理员审核','文章标题:{title},文章id:{id}'.format(title=article.title,id=articleid))
+            finally:
+                return '通过成功'
         elif request.form['type'] == 'unpass':
             db_article.Article().deleteArticle(int(request.form['articleid']))
-            send_mail([email],'您的文章未通过管理员审核','文章标题:{title},文章id:{id}'.format(title=article.title,id=articleid))
-            return 'unpass success'
+            try:
+                send_mail([email],'您的文章未通过管理员审核','文章标题:{title},文章id:{id}'.format(title=article.title,id=articleid))
+            finally:
+                return '不通过成功'
         else:
-            return 'error'
+            return '审核出现错误'
 
 @app.route('/admin/article/list')
 def admin_listAllArticles():
@@ -100,6 +106,11 @@ def admin_listAllArticles():
 def admin_deleteArticle():
     articleid = request.form['articleid']
     if db_article.Article().deleteArticle(articleid):
-        return 'delete success'
+        return '删除成功'
     else:
-        return 'delete failed'
+        return '删除失败'
+
+@app.route('/admin/article/verified')
+def listVerified():
+    verified = db_article.Article().getVerifiedArticles()
+    return render_template('admin/verifiedArticle.html',verified=verified)

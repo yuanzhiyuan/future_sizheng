@@ -1,3 +1,4 @@
+#encoding=utf8
 __author__ = 'yuan'
 from flask import *
 from sizheng import app
@@ -51,9 +52,9 @@ def changePassword():
                 db_user.User().changePassword(session['username'],request.form['oldpassword'],request.form['repassword'])
                 return 'success'
             else:
-                return 'old and new password does not match'
+                return '两次密码不一致'
         else:
-            return 'wrong password'
+            return '密码错误'
 
 
 @app.route('/user/frame/<position>')
@@ -64,3 +65,7 @@ def showFrame(position):
         return render_template('user/frame_right.html')
     else:
         return False
+
+@app.route('/user/shouldKnow')
+def shouldKnow():
+    return render_template('user/frame_right.html')

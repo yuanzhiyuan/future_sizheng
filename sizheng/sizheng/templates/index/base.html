@@ -24,14 +24,14 @@
 		<!-- navigation -->
 		<div class="nav">
 			<ul class="plate">
-	            <li><a href="#" class="active">首页</a></li>
-	            <li><a href="#">版块名称</a></li>
-	            <li><a href="#">版块名称</a></li>
-	            <li><a href="#">版块名称</a></li>
-	            <li><a href="#">版块名称</a></li>
-	            <li><a href="#">版块名称</a></li>
-	            <li><a href="#">版块名称</a></li>
-	            <li><a href="#">版块名称</a></li>
+	            <li><a href="/" class="active">首页</a></li>
+	            <!--<li><a href="#">版块名称</a></li>-->
+	            <!--<li><a href="#">版块名称</a></li>-->
+	            <!--<li><a href="#">版块名称</a></li>-->
+	            <!--<li><a href="#">版块名称</a></li>-->
+	            <!--<li><a href="#">版块名称</a></li>-->
+	            <!--<li><a href="#">版块名称</a></li>-->
+	            <!--<li><a href="#">版块名称</a></li>-->
 	        </ul>
 		</div>
 	</div>
@@ -75,19 +75,13 @@
 			<!-- 使用cookie保存的最新阅读的文章（全局），11条 -->
 			<div id="sidebar-follow" class="list dv-col-3 ov-h">
 				<div class="w-320">
-					<h3><a href="javascript:;">我看过的</a></h3>
+					<h3><a href="javascript:;">历史</a>&nbsp;&nbsp;&nbsp;<a href="/index/clearHistory">清除</a></h3>
+
 					<ul>
-						<li title="我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会"><a href="#">我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会</a></li>
-						<li title="我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会"><a href="#">我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会</a></li>
-						<li title="我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会"><a href="#">我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会</a></li>
-						<li title="我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会"><a href="#">我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会</a></li>
-						<li title="我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会"><a href="#">我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会</a></li>
-						<li title="我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会"><a href="#">我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会</a></li>
-						<li title="我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会"><a href="#">我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会</a></li>
-						<li title="我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会"><a href="#">我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会</a></li>
-						<li title="我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会"><a href="#">我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会</a></li>
-						<li title="我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会"><a href="#">我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会</a></li>
-						<li title="我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会"><a href="#">我中心聂建强、漆彤教授赴重庆参加国际法2014年学术年会</a></li>
+                        {% for recent in recentRead %}
+
+						<li title="{{recent.title}}"><a href="/article/{{recent.id}}">{{recent.title}}</a></li>
+						{% endfor %}
 					</ul>
 				</div>
 			</div>

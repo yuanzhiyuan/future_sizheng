@@ -1,7 +1,9 @@
+#encoding=utf8
 __author__ = 'yuan'
 
 from flask import *
 from sizheng import app
+import sizheng.config as config
 from sizheng.controller.tools import *
 import sizheng.model.article as db_article
 import sizheng.model.user as db_user
@@ -16,8 +18,28 @@ def viewArticle(articleid):
     if article:
         # return render_template('test.html')
         article.views+=1
+        #session不能存储article对象。。所以存储了id
+        if db_article.Article().isVerified(articleid):
+            if 'recentRead' in session:
+
+                if articleid in session['recentRead']:
+                    session['recentRead'].remove(articleid)
+                session['recentRead'].append(articleid)
+            else:
+                session['recentRead'] = [articleid]
+        else:
+            if 'recentRead' not in session:
+                session['recentRead'] = []
+        #反转过来，刚看过的文章排在最上面
+        reversedArticle = sorted(session['recentRead'],reverse=True)
+        # reversedArticle = session['recentRead']
+        if len(session['recentRead'])<=11:
+
+            recentRead = map(db_article.Article().getArticle,reversedArticle)
+        else:
+            recentRead = map(db_article.Article().getArticle,reversedArticle[:11])
         pages,hotArticles = db_article.Article().cutArticlesAsPages(db_article.Article().getHotArticles(),11,1)
-        return render_template('index/article.html',article=article,hotArticles=hotArticles)
+        return render_template('index/article.html',article=article,hotArticles=hotArticles,recentRead=recentRead)
     else:
         return abort(404)
 
@@ -31,11 +53,13 @@ def addArticle():
         category = request.form['category']
         if title and author and article and category:
             db_article.Article().addArticle(category,title,article,author)
-            # send_mail([''])
-            return 'success'
+            try:
+                send_mail([config.Admin],'有人发表了文章','文章作者:{author},文章标题:{title}'.format(author=author,title=title))
+            finally:
+                return '发表成功'
 
         else:
-            return 'invalid article'
+            return '无效的文章'
 
     else:
         return render_template('user/publish.html')
@@ -63,6 +87,8 @@ def updateArticle(articleid):
         category = request.form['category']
         if title and author and content and category:
             db_article.Article().updateArticle(category,articleid,title,content,author)
-            return 'success'
+            article = db_article.Article().getArticle(articleid)
+            article.state = 0
+            return '更新成功'
         else:
-            return 'invalid article'
+            return '无效的文章'
