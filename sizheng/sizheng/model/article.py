@@ -108,7 +108,7 @@ class Article(Base):
     def verify(self,articleid):
         article = session.query(Article).filter(Article.id == articleid)
         if article:
-            article.update({"state":1})
+            article.update({"publishTime":int(time.time()),"state":1})
             session.commit()
             return True
         else:

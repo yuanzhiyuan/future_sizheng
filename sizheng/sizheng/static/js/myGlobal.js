@@ -13,6 +13,7 @@ function passArticle(obj){
             alert(data)
             location.reload()
         })
+    return false
 }
 
 
@@ -120,7 +121,7 @@ function updateUser(obj){
 
 function addArticle(){
     var title = $('#title').val()
-    var category = $('#category').val()
+//    var category = $('#category').val()
     var article = $('#article').val()
     if(title==''){
         alert('标题不能为空')
@@ -133,7 +134,7 @@ function addArticle(){
     $.post('/article/add',
         {
             title : title,
-            category : category,
+//            category : category,
             article : article
         },
         function (data, status) {

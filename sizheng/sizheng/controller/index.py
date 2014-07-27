@@ -19,19 +19,34 @@ def index(pageNum=1):
       pages,hotArticles = db_article.Article().cutArticlesAsPages(db_article.Article().getHotArticles(),11,1)
 
       pages,articles = db_article.Article().cutArticlesAsPages(allArticles,20,pageNum)
-      if 'recentRead' in session:
-            reversedArticle = sorted(session['recentRead'],reverse=True)
-            # reversedArticle = session['recentRead']
-            if len(session['recentRead'])<=11:
-                recentRead = map(db_article.Article().getArticle,reversedArticle)
-            else:
-                recentRead = map(db_article.Article().getArticle,reversedArticle[:11])
-
+      if request.cookies.get('recentRead'):
+          recentRead = map(int,request.cookies.get('recentRead').split('***'))
+          reversedArticle = sorted(recentRead,reverse=True)
+          if len(recentRead)<=11:
+              recent = map(db_article.Article().getArticle,reversedArticle)
+          else:
+              recent = map(db_article.Article().getArticle,reversedArticle[:11])
       else:
-          recentRead = []
-      return render_template('index/list.html',articles=articles,hotArticles=hotArticles,totalPages=pages,currentPage=pageNum,recentRead=recentRead)
+          recent = []
+      # if 'recentRead' in session:
+      #       reversedArticle = sorted(session['recentRead'],reverse=True)
+      #       # reversedArticle = session['recentRead']
+      #       if len(session['recentRead'])<=11:
+      #           recentRead = map(db_article.Article().getArticle,reversedArticle)
+      #       else:
+      #           recentRead = map(db_article.Article().getArticle,reversedArticle[:11])
+      #
+      # else:
+      #     recentRead = []
+      return render_template('index/list.html',articles=articles,hotArticles=hotArticles,totalPages=pages,currentPage=pageNum,recentRead=recent)
 
 @app.route('/index/clearHistory')
 def clearHistory():
-    session.pop('recentRead',None)
-    return redirect('/')
+    # session.pop('recentRead',None)
+    # resp = make_response(render_template('test.html',data=request.referrer))
+    # resp.set_cookie('username','yuan')
+    # return resp
+    # return render_template('test.html',data=request.referrer)
+    resp = make_response(redirect(request.referrer))
+    resp.delete_cookie('recentRead')
+    return resp

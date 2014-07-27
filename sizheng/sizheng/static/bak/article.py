@@ -16,41 +16,30 @@ def viewArticle(articleid):
     article = db_article.Article().getArticle(articleid)
 
     if article:
-
         # return render_template('test.html')
         article.views+=1
         #session不能存储article对象。。所以存储了id
         if db_article.Article().isVerified(articleid):
-            if request.cookies.get('recentRead'):
-                recentRead = map(int,request.cookies.get('recentRead').split('***'))
-                if articleid in recentRead:
-                    recentRead.remove(articleid)
-                recentRead.append(articleid)
+            if 'recentRead' in session:
+
+                if articleid in session['recentRead']:
+                    session['recentRead'].remove(articleid)
+                session['recentRead'].append(articleid)
             else:
-                recentRead = [articleid]
-
-            # if 'recentRead' in session:
-            #
-            #     if articleid in session['recentRead']:
-            #         session['recentRead'].remove(articleid)
-            #     session['recentRead'].append(articleid)
-            # else:
-            #     session['recentRead'] = [articleid]
+                session['recentRead'] = [articleid]
         else:
-            return '这篇文章未被审核'
+            if 'recentRead' not in session:
+                session['recentRead'] = []
         #反转过来，刚看过的文章排在最上面
-        reversedArticle = sorted(recentRead,reverse=True)
+        reversedArticle = sorted(session['recentRead'],reverse=True)
         # reversedArticle = session['recentRead']
-        if len(recentRead)<=11:
+        if len(session['recentRead'])<=11:
 
-            recent = map(db_article.Article().getArticle,reversedArticle)
+            recentRead = map(db_article.Article().getArticle,reversedArticle)
         else:
-            recent = map(db_article.Article().getArticle,reversedArticle[:11])
+            recentRead = map(db_article.Article().getArticle,reversedArticle[:11])
         pages,hotArticles = db_article.Article().cutArticlesAsPages(db_article.Article().getHotArticles(),11,1)
-        resp = make_response(render_template('index/article.html',article=article,hotArticles=hotArticles,recentRead=recent))
-        str_recentRead = '***'.join(map(str,recentRead))
-        resp.set_cookie('recentRead',str_recentRead)
-        return resp
+        return render_template('index/article.html',article=article,hotArticles=hotArticles,recentRead=recentRead)
     else:
         return abort(404)
 
@@ -61,14 +50,13 @@ def addArticle():
         title = request.form['title']
         author = session['username']
         article = request.form['article']
-        # category = request.form['category']
-        if title and author and article:
-            db_article.Article().addArticle(0,title,article,author)
-            # try:
-            #     send_mail([config.Admin],'有人发表了文章','文章作者:{author},文章标题:{title}'.format(author=author,title=title))
-            # finally:
-            #     return '发表成功'
-            return 'success'
+        category = request.form['category']
+        if title and author and article and category:
+            db_article.Article().addArticle(category,title,article,author)
+            try:
+                send_mail([config.Admin],'有人发表了文章','文章作者:{author},文章标题:{title}'.format(author=author,title=title))
+            finally:
+                return '发表成功'
 
         else:
             return '无效的文章'
