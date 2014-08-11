@@ -5,6 +5,7 @@ from sizheng import app
 
 import sizheng.model.article as db_article
 import sizheng.model.user as db_user
+from sizheng.controller.auth import *
 
 @app.route('/login/',methods=['GET','POST'])
 def login():
@@ -29,6 +30,7 @@ def login():
 
 
 @app.route('/user/<username>')
+@requires_auth
 def user(username):
     return render_template('user/background.html',username=username)
 
@@ -43,6 +45,7 @@ def logout():
 
 
 @app.route('/user/changePassword',methods=['GET','POST'])
+@requires_auth
 def changePassword():
     if request.method == 'GET':
         return render_template('user/changePassword.html')
@@ -58,6 +61,7 @@ def changePassword():
 
 
 @app.route('/user/frame/<position>')
+@requires_auth
 def showFrame(position):
     if position == 'left':
         return render_template('user/frame_left.html')
@@ -67,5 +71,6 @@ def showFrame(position):
         return False
 
 @app.route('/user/shouldKnow')
+@requires_auth
 def shouldKnow():
     return render_template('user/frame_right.html')

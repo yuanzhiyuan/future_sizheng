@@ -7,6 +7,7 @@ import sizheng.config as config
 from sizheng.controller.tools import *
 import sizheng.model.article as db_article
 import sizheng.model.user as db_user
+from sizheng.controller.auth import *
 
 
 
@@ -56,6 +57,7 @@ def viewArticle(articleid):
 
 
 @app.route('/article/add',methods=['POST','GET'])
+@requires_auth
 def addArticle():
     if request.method == 'POST':
         title = request.form['title']
@@ -78,16 +80,19 @@ def addArticle():
 
 
 @app.route('/article/list')
+@requires_auth
 def listArticle():
     articles = db_article.Article().getArticleByAuthor(session['username'])
     return render_template('user/articlelist.html',articles=articles)
 
 @app.route('/article/delete/<articleid>')
+@requires_auth
 def deleteArticle(articleid):
     db_article.Article().deleteArticle(articleid)
 
     return redirect('/article/list')
 @app.route('/article/update/<articleid>',methods=['GET','POST'])
+@requires_auth
 def updateArticle(articleid):
     if request.method == 'GET':
         article = db_article.Article().getArticle(articleid)

@@ -12,5 +12,6 @@ import sizheng.controller.admin
 import sizheng.controller.tools
 import sizheng.controller.test
 import sizheng.controller.errorHandler
+import sizheng.controller.auth
 
 

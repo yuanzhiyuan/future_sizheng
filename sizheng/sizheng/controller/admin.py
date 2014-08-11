@@ -7,12 +7,15 @@ from sizheng import app
 import sizheng.model.article as db_article
 import sizheng.model.user as db_user
 from sizheng.controller.tools import *
+from sizheng.controller.auth import *
 
 @app.route('/admin')
+@requires_auth
 def admin():
     return render_template('user/background.html')
 
 @app.route('/admin/user/add',methods=['POST','GET'])
+@requires_auth
 def addUser():
     if request.method == 'POST':
         if request.form['password'] == request.form['repassword']:
@@ -35,11 +38,13 @@ def addUser():
 
 
 @app.route('/admin/user/list')
+@requires_auth
 def listUser():
     users = db_user.User().getAllUsers()
     return render_template('admin/userList.html',users=users)
 
 @app.route('/admin/user/update',methods=['POST'])
+@requires_auth
 def updateUser():
     #userid is str
     userid = request.form['id']
@@ -65,6 +70,7 @@ def updateUser():
         return '检查你的输入'
 
 @app.route('/admin/user/delete/<userid>')
+@requires_auth
 def deleteUser(userid):
     if db_user.User().deleteUser(userid):
         return redirect('/admin/user/list')
@@ -73,6 +79,7 @@ def deleteUser(userid):
 
 
 @app.route('/admin/article/verify',methods=['GET','POST'])
+@requires_auth
 def verify():
     if request.method == 'GET':
 
@@ -98,11 +105,13 @@ def verify():
             return '审核出现错误'
 
 @app.route('/admin/article/list')
+@requires_auth
 def admin_listAllArticles():
     articles = db_article.Article().getAllArticles()
     return render_template('admin/admin_articleList.html',articles=articles)
 
 @app.route('/admin/article/delete',methods=['POST'])
+@requires_auth
 def admin_deleteArticle():
     articleid = request.form['articleid']
     if db_article.Article().deleteArticle(articleid):
@@ -111,6 +120,7 @@ def admin_deleteArticle():
         return '删除失败'
 
 @app.route('/admin/article/verified')
+@requires_auth
 def listVerified():
     verified = db_article.Article().getVerifiedArticles()
     return render_template('admin/verifiedArticle.html',verified=verified)
