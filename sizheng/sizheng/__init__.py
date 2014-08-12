@@ -13,5 +13,6 @@ import sizheng.controller.tools
 import sizheng.controller.test
 import sizheng.controller.errorHandler
 import sizheng.controller.auth
+import sizheng.controller.api
 
 

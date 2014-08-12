@@ -23,7 +23,7 @@
 			<div class="detail ta-c mt-10 c-gray fs-12">
 				<span>发布者：{{article.author}}</span>
 				&emsp;&emsp;
-				<span>发布时间：{{article.publishTime}}</span>
+				<span>发布时间：{{article.publishTime | timeformat('%Y-%m-%d %H:%M')}}</span>
 			</div>
 			<hr>
 			<div class="content">

@@ -93,7 +93,7 @@ class Article(Base):
         articles = handler.limit(pageSize).offset((page-1)*pageSize).all()
         return pages,articles
     def getVerifiedArticles(self):
-        articles = session.query(Article).filter(Article.state == 1)
+        articles = session.query(Article).filter(Article.state == 1).order_by(desc(Article.id))
         if articles:
             return articles
         else:
@@ -131,6 +131,12 @@ class Article(Base):
                 return pages,result
             return False
         return False
+
+    def getNewest20(self):
+        handler = self.getVerifiedArticles().order_by(desc(Article.id))
+        handledArticles = handler.limit(20).all()
+        return handledArticles
+
 
 
 # article = Article()

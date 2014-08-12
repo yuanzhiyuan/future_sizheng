@@ -19,6 +19,15 @@ def index(pageNum=1):
       pages,hotArticles = db_article.Article().cutArticlesAsPages(db_article.Article().getHotArticles(),11,1)
 
       pages,articles = db_article.Article().cutArticlesAsPages(allArticles,20,pageNum)
+      if pages<=9:
+          enum = range(pages)
+      else:
+          if pageNum<5:
+              enum = range(9)
+          elif pageNum+5>pages:
+              enum = range(pages)[-9:]
+          else:
+              enum = range(pages)[pageNum-4:pageNum+5]
       if request.cookies.get('recentRead'):
           recentRead = map(int,request.cookies.get('recentRead').split('***'))
           reversedArticle = sorted(recentRead,reverse=True)
@@ -38,7 +47,7 @@ def index(pageNum=1):
       #
       # else:
       #     recentRead = []
-      return render_template('index/list.html',articles=articles,hotArticles=hotArticles,totalPages=pages,currentPage=pageNum,recentRead=recent)
+      return render_template('index/list.html',articles=articles,hotArticles=hotArticles,totalPages=pages,currentPage=pageNum,recentRead=recent,enum=enum)
 
 @app.route('/index/clearHistory')
 def clearHistory():

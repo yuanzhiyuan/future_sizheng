@@ -48,12 +48,12 @@
         </td>
         <td>
          <div class="short_elements">
-        {{article.publishTime}}
+        {{article.publishTime | timeformat('%Y-%m-%d %H:%M')}}
         </div>
         </td>
        	<td>
         <div class="long_elements">
-        {{article.updateTime}}
+        {{article.updateTime | timeformat('%Y-%m-%d %H:%M')}}
         </div>
         </td>
         <td>
