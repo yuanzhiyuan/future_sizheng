@@ -246,3 +246,12 @@ function changePassword(obj) {
             }
         })
 }
+
+var clearcookie=function(){
+    var keys=document.cookie.match(/[^ =;]+(?=\=)/g); 
+    if (keys){ 
+        for (var i = keys.length; i--;); 
+        document.cookie=keys[i]+'=0;expires=' + new Date( 0).toUTCString(); 
+    }
+    alert('浏览记录已被清除!');
+}
