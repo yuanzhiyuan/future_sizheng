@@ -4,6 +4,21 @@
 <meta charset="utf-8">
 <title>登陆界面</title>
 <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+window.onload = function() {
+
+    document.body.onkeydown = function(e) {
+        e = e || window.event;
+        // 回车的asc是13
+        if(e.keyCode==13){
+            var dom = document.getElementById('login');
+            if(dom) {
+                dom.click();
+            }
+        }
+    }
+}
+</script>
 </head>
 
 <body>
@@ -16,7 +31,7 @@
         <input class="search_query" type="password" placeholder="密码" maxlength="80" id="password">
         </div>
         <div class="search_query log_in">
-        	<a href="#" onclick="login()">
+        	<a href="#" onclick="login()" id="login">
         		登&nbsp;&nbsp;&nbsp;&nbsp;录
             </a>
         </div>

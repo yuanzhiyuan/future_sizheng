@@ -1,10 +1,11 @@
 __author__ = 'yuan'
 from sizheng.model.common import *
+from hashlib import md5
 class User(Base):
     __tablename__ = 'sizheng_user'
     id = Column(Integer,primary_key=True)
     username = Column(String(20))
-    password = Column(String(20))
+    password = Column(String(40))
     state = Column(Integer,default=1) #1:putong 0:admin
     email = Column(String(30))
     phone = Column(Integer,default=0)
@@ -24,7 +25,7 @@ class User(Base):
 
     def addUser(self,username,password,email,phone=0):
 
-        user = User(username = username,password = password,email=email,phone=phone)
+        user = User(username = username,password = md5(password).hexdigest(),email=email,phone=phone)
         if user:
             session.add(user)
             session.commit()
@@ -43,7 +44,7 @@ class User(Base):
     def updateUser(self,id,username,password,state,email,phone=0):
         user = session.query(User).filter(User.id == id)
         if user:
-            user.update({"username":username,"password":password,"state":state,"email":email,"phone":phone})
+            user.update({"username":username,"password":md5(password).hexdigest(),"state":state,"email":email,"phone":phone})
             session.commit()
             return True
         else:
@@ -52,7 +53,7 @@ class User(Base):
     def changePassword(self,username,oldPassword,newPassword):
         if self.confirm(username,oldPassword):
             user = session.query(User).filter(User.username == username)
-            user.update({"password":newPassword})
+            user.update({"password":md5(newPassword).hexdigest()})
             session.commit()
             return True
         else:
@@ -61,7 +62,7 @@ class User(Base):
     def confirm(self,username,password):
         user = session.query(User).filter(User.username == username).first()
         if user:
-            if password == user.password:
+            if md5(password).hexdigest() == user.password:
                 return True
             else:
                 return False

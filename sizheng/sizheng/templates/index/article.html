@@ -27,7 +27,11 @@
 			</div>
 			<hr>
 			<div class="content">
-				<p style="padding: 0px; margin-top: 0px; margin-bottom: 0px; word-wrap: break-word; line-height: 30px;">{{article.content}}</p>
+				<p style="padding: 0px; margin-top: 0px; margin-bottom: 0px; word-wrap: break-word; line-height: 30px;">
+                    {% autoescape false %}
+			         {{ article.content }}
+                    {% endautoescape %}
+                </p>
 			</div>
 		</div>
         {% endblock %}

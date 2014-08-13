@@ -120,7 +120,7 @@ input[type="text"]:focus {
 	}
 /*******************table**************/
 .long_elements{
-	width:240px;
+	width:500px;
 	height:20px;
 	text-align:center;
 	}
