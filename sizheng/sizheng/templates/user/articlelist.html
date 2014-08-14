@@ -4,9 +4,12 @@
 <meta charset="utf-8">
 <title>个人文章列表</title>
 <link href="/static/css/sonsstyle.css" rel="stylesheet" type="text/css">
+<link href="/static/css/global.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <body>
+<div>
 <table id="users">
 	<tr>
     	<td class="short_elements">
@@ -79,6 +82,24 @@
         </td>
     </tr>
     {% endfor %}
+    </table>
+    </div>
+
+    <div class="list-page">
+
+				<ul>
+                    <li><a href="/article/list/page/1">首页</a></li>
+                    {% for num in enum %}
+                    {% if num+1==currentPage %}
+					<li><a class="active" href="#">{{currentPage}}</a></li>
+                    {% else %}
+					<li><a href="/article/list/page/{{num+1}}">{{num+1}}</a></li>
+					{% endif %}
+                    {% endfor %}
+                    <li><a href="/article/list/page/{{totalPages+1}}">末页</a></li>
+				</ul>
+	</div>
+
 
 
 </table>

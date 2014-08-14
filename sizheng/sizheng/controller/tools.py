@@ -5,6 +5,7 @@ import sizheng.config as config
 from sizheng import app
 from email.mime.text import MIMEText
 from flask import request
+import sizheng.model.article as db_article
 
 
 @app.template_filter('timeformat')
@@ -30,3 +31,17 @@ def send_mail(to_list,title,content):
 
     finally:
         print 'mail been send'
+
+
+def cutPage(articles,pageSize,pageNum):
+    pages,result_articles = db_article.Article().cutArticlesAsPages(articles,pageSize,pageNum)
+    if pages<=9:
+        enum = range(pages)
+    else:
+          if pageNum<5:
+              enum = range(9)
+          elif pageNum+5>pages:
+              enum = range(pages)[-9:]
+          else:
+              enum = range(pages)[pageNum-5:pageNum+4]
+    return pages,result_articles,enum

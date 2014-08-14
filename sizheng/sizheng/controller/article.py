@@ -80,10 +80,12 @@ def addArticle():
 
 
 @app.route('/article/list')
+@app.route('/article/list/page/<int:pageNum>')
 @requires_auth
-def listArticle():
-    articles = db_article.Article().getArticleByAuthor(session['username'])
-    return render_template('user/articlelist.html',articles=articles)
+def listArticle(pageNum=1):
+    allArticles = db_article.Article().getArticleByAuthor(session['username'])
+    pages,articles,enum=cutPage(allArticles,20,pageNum)
+    return render_template('user/articlelist.html',articles=articles,totalPages=pages,currentPage=pageNum,enum=enum)
 
 @app.route('/article/delete/<articleid>')
 @requires_auth

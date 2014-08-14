@@ -4,9 +4,12 @@
 <meta charset="utf-8">
 <title>无标题文档</title>
 <link href="/static/css/sonsstyle.css" rel="stylesheet" type="text/css">
+<link href="/static/css/global.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <body>
+<div>
 <table id="users">
 	<tr>
     	<td class="short_elements">
@@ -15,16 +18,16 @@
         <td class="short_elements">
         标题
         </td>
-        <td class="short_elements">
+        <td class="long_elements">
         作者
         </td>
         <!--<td class="short_elements">-->
         <!--分类-->
         <!--</td>-->
-        <td class="long_elements">
+        <td class="short_elements">
         发布时间
         </td>
-        <td class="long_elements">
+        <td class="short_elements">
         最后跟新时间
         </td>
         <td class="short_elements">
@@ -45,7 +48,7 @@
         </div>
         </td>
         <td>
-        <div class="short_elements">
+        <div class="long_elements">
         {{article.title}}
         </div>
         </td>
@@ -60,12 +63,12 @@
         <!--</div>-->
         <!--</td>-->
        	<td>
-        <div class="long_elements">
+        <div class="short_elements">
         {{article.publishTime | timeformat('%Y-%m-%d %H:%M')}}
         </div>
         </td>
         <td>
-        <div class="long_elements">
+        <div class="short_elements">
         {{article.updateTime | timeformat('%Y-%m-%d %H:%M')}}
         </div>
         </td>
@@ -84,14 +87,30 @@
         </div>
         </td>
         <td>
+            <div class="short_elements">
 
-            <center><button data-articleid="{{article.id}}" onclick="deleteArticle(this)">删除</button></center>
-
+            <button data-articleid="{{article.id}}" onclick="deleteArticle(this)">删除</button>
+            </div>
         </td>
     </tr>
     {% endfor %}
 
 </table>
+</div>
+<div class="list-page">
+
+				<ul>
+                    <li><a href="/admin/article/list/page/1">首页</a></li>
+                    {% for num in enum %}
+                    {% if num+1==currentPage %}
+					<li><a class="active" href="#">{{currentPage}}</a></li>
+                    {% else %}
+					<li><a href="/admin/article/list/page/{{num+1}}">{{num+1}}</a></li>
+					{% endif %}
+                    {% endfor %}
+                    <li><a href="/admin/article/list/page/{{totalPages+1}}">末页</a></li>
+				</ul>
+</div>
 </body>
 <script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/simditor-all.min.js"></script>

@@ -5,6 +5,7 @@ from sizheng import app
 import sizheng.config as config
 import sizheng.model.article as db_article
 import sizheng.model.user as db_user
+from sizheng.controller.tools import *
 
 
 
@@ -18,16 +19,17 @@ def index(pageNum=1):
       allArticles = db_article.Article().getVerifiedArticles()
       pages,hotArticles = db_article.Article().cutArticlesAsPages(db_article.Article().getHotArticles(),11,1)
 
-      pages,articles = db_article.Article().cutArticlesAsPages(allArticles,20,pageNum)
-      if pages<=9:
-          enum = range(pages)
-      else:
-          if pageNum<5:
-              enum = range(9)
-          elif pageNum+5>pages:
-              enum = range(pages)[-9:]
-          else:
-              enum = range(pages)[pageNum-4:pageNum+5]
+      # pages,articles = db_article.Article().cutArticlesAsPages(allArticles,20,pageNum)
+      # if pages<=9:
+      #     enum = range(pages)
+      # else:
+      #     if pageNum<5:
+      #         enum = range(9)
+      #     elif pageNum+5>pages:
+      #         enum = range(pages)[-9:]
+      #     else:
+      #         enum = range(pages)[pageNum-4:pageNum+5]
+      pages,articles,enum=cutPage(allArticles,20,pageNum)
       if request.cookies.get('recentRead'):
           recentRead = map(int,request.cookies.get('recentRead').split('***'))
           reversedArticle = sorted(recentRead,reverse=True)

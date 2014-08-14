@@ -79,12 +79,16 @@ def deleteUser(userid):
 
 
 @app.route('/admin/article/verify',methods=['GET','POST'])
+@app.route('/admin/article/verify/page/<int:pageNum>',methods=['GET','POST'])
 @requires_auth
-def verify():
+def verify(pageNum=1):
     if request.method == 'GET':
 
-        articles = db_article.Article().getUnverifiedArticles()
-        return render_template('admin/admin_articleVerify.html',articles=articles)
+        allArticles = db_article.Article().getUnverifiedArticles()
+        pages,articles,enum=cutPage(allArticles,20,pageNum)
+        return render_template('admin/admin_articleVerify.html',articles=articles,totalPages=pages,currentPage=pageNum,enum=enum)
+
+
     elif request.method == 'POST':
         email = db_user.User().getUser(session['username']).email
         articleid = request.form['articleid']
@@ -105,10 +109,14 @@ def verify():
             return '审核出现错误'
 
 @app.route('/admin/article/list')
+@app.route('/admin/article/list/page/<int:pageNum>')
 @requires_auth
-def admin_listAllArticles():
-    articles = db_article.Article().getAllArticles()
-    return render_template('admin/admin_articleList.html',articles=articles)
+def admin_listAllArticles(pageNum=1):
+    allArticles = db_article.Article().getAllArticles()
+    pages,articles,enum=cutPage(allArticles,20,pageNum)
+    return render_template('admin/admin_articleList.html',articles=articles,totalPages=pages,currentPage=pageNum,enum=enum)
+
+
 
 @app.route('/admin/article/delete',methods=['POST'])
 @requires_auth
@@ -120,7 +128,10 @@ def admin_deleteArticle():
         return '删除失败'
 
 @app.route('/admin/article/verified')
+@app.route('/admin/article/verified/page/<int:pageNum>')
 @requires_auth
-def listVerified():
-    verified = db_article.Article().getVerifiedArticles()
-    return render_template('admin/verifiedArticle.html',verified=verified)
+def listVerified(pageNum=1):
+    allArticles = db_article.Article().getVerifiedArticles()
+    pages,articles,enum=cutPage(allArticles,20,pageNum)
+    return render_template('admin/verifiedArticle.html',articles=articles,totalPages=pages,currentPage=pageNum,enum=enum)
+
